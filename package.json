@@ -1,0 +1,16 @@
+{
+  "name": "plsdoitt",
+  "version": "1.0.0",
+  "description": "you need to do it for yourself -T",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "backend",
+    "hope"
+  ],
+  "author": "Tanushka Kashyap",
+  "license": "ISC"
+}
