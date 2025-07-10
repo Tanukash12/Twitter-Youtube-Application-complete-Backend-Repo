@@ -17,7 +17,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // 1.
     const {fullname, email, username, password} = req.body
-    console.log("email: " , email );
+    // console.log("email: " , email );
     
     // 2.
     if(
@@ -28,27 +28,35 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     // 3.
-    const existedUser = User.findOne({
+    const existedUser = await User.findOne({
         $or: [{email}, {username}]
     })
-    console.log(existedUser);
+    console.log(req.files);
     
 
     if(existedUser){
-        throw new ApiError(409, "user with email or username alrady exist.")
+        throw new ApiError(409, "user with email or username already exist.")
     }
 
     // 4. 
-    const avatartLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    const avatarLocalPath = req.files?.avatar[0]?.path;
 
-    if(!avatartLocalPath){
+    let coverImageLocalPath;
+    if(req.files?.coverImage?.length > 0){
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
+
+    if(!avatarLocalPath){
         throw new ApiError(400, "Avatar file is required")
     }
 
     // 5.
-    const avatar = await uploadOnCloudinary(avatartLocalPath)
-    const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+    const avatar = await uploadOnCloudinary(avatarLocalPath)
+    // const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+    let coverImage = { url: "" };
+    if (coverImageLocalPath) {
+        coverImage = await uploadOnCloudinary(coverImageLocalPath);
+    }
 
     if(!avatar){
         throw new ApiError(400, "Avatar file is required")
@@ -58,13 +66,13 @@ const registerUser = asyncHandler(async (req, res) => {
     const user = await User.create({
         fullname,
         avatar: avatar.url,
-        coverImage: coverImage.url || "",
+        coverimage: coverImage.url || "",
         email,
         password,
         username: username.toLowerCase()
     })
 
-    const createdUser = User.findById(user._id)
+    const createdUser = await User.findById(user._id)
                             .select("-password -refreshToken")
 
     // 7.
