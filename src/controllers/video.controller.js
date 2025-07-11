@@ -10,8 +10,8 @@ const getAllVideos = asyncHandler(async(req, res) => {
     // everytime sari videos nahi -> page and limit
     const { page = 1, limit = 10, query, sortBy, sortType, userId} = req.query
     
-    page = parseInt(page) || 1;
-    limit = parseInt(limit) || 10;
+    const parsedPage = parseInt(page) || 1;
+    const parsedLimit = parseInt(limit) || 10;
 
     // search
     const filter = {}
@@ -38,7 +38,7 @@ const getAllVideos = asyncHandler(async(req, res) => {
     const videos = await Video.find(filter)
                         .skip(skip)
                         .sort(sort)
-                        .limit(limit)
+                        .limit(parsedLimit)
                         .populate("userId", "username avatar")
 
     const totalVideos = await Video.countDocuments(filter)
@@ -47,9 +47,9 @@ const getAllVideos = asyncHandler(async(req, res) => {
     .status(200)
     .json(new ApiResponse(200, {
         videos,
-        page,
+        parsedPage,
         totalVideos,
-        totalPages: Math.ceil(totalVideos / limit)
+        totalPages: Math.ceil(totalVideos / parsedLimit)
     }, "Videos fetched successfully."))
 
 })
@@ -151,7 +151,7 @@ const deletVideo = asyncHandler(async(req, res) => {
         throw new ApiError(404,"Invalid or missing video ID.")
     }
 
-    const video = await Video.findById(tweetId)
+    const video = await Video.findById(videoId)
     
         if(!video){
             throw new ApiError(404, "Video not found.")
@@ -161,7 +161,7 @@ const deletVideo = asyncHandler(async(req, res) => {
             throw new ApiError(403, "You cannot delete someone else's Video.");
         }
     
-        await video.delete()
+        await video.remove()
         
     return res
     .status(200)
