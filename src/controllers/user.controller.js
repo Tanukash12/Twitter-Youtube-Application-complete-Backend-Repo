@@ -4,7 +4,6 @@ import {User} from "../models/user.models.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
-import { response } from "express"
 import mongoose from "mongoose"
 
 // access token & refresh token
@@ -282,7 +281,7 @@ const updateAccountDetails = asyncHandler(async(req,res) => {
 
     return res
     .status(200)
-    .json(new ApiResponse(200, "Account details updated successfully."))
+    .json(new ApiResponse(200, user ,"Account details updated successfully."))
 })
 
 const updateUserAvatar = asyncHandler(async(req, res) => {
