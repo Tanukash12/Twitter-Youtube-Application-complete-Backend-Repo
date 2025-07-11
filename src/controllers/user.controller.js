@@ -51,7 +51,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const existedUser = await User.findOne({
         $or: [{email}, {username}]
     })
-    console.log(req.files);
+    // console.log(req.files);
     
 
     if(existedUser){
