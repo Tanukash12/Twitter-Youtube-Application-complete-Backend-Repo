@@ -38,7 +38,6 @@ Inspired by **YouTube** and **Twitter**, this project supports video uploads, us
 # Credits
 ## Build by [@Tanushka12](https://github.com/Tanukash12)
 ## Guided by [@hiteshchoudhary](https://github.com/hiteshchoudhary). Thanks to sir for inspiring this project. 🙏 
-##This project is built after learning from  
-##🎓 [Hitesh Choudhary](https://www.youtube.com/c/HiteshChoudharydotcom) — one of the best educators in tech!  
+##This project is built after learning from 🎓 [Hitesh Choudhary](https://www.youtube.com/c/HiteshChoudharydotcom) — one of the best educators in tech!  
 ##Check him out on [Twitter](https://twitter.com/hiteshdotcom) |  [Github][@hiteshchoudhary](https://github.com/hiteshchoudhary) 
 
