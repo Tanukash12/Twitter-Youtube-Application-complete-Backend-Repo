@@ -151,20 +151,51 @@ const deletVideo = asyncHandler(async(req, res) => {
         throw new ApiError(404,"Invalid or missing video ID.")
     }
 
-    const video = await Video.findByIdAndDelete(videoId);
-
-    if (!video) {
-        throw new ApiError(404, "Video not found.");
-    }
-
+    const video = await Video.findById(tweetId)
+    
+        if(!video){
+            throw new ApiError(404, "Video not found.")
+        }
+    
+        if (Video.owner.toString() !== req.user._id.toString()) {
+            throw new ApiError(403, "You cannot delete someone else's Video.");
+        }
+    
+        await video.delete()
+        
     return res
     .status(200)
-    .json(new ApiResponse(200, "Video is deleted successfully."))
+    .json(new ApiResponse(200, null, "Video is deleted successfully."))
 
 })
 
-const togglePublishStatus = asyncHandler(async(req, res) => {
-    
+const togglePublishStatus = asyncHandler(async (req, res) => {
+    const { videoId } = req.params
+    if(!videoId || isValidObjectId(videoId)){
+        throw new ApiError(404, "Invalid or missing video ID.")
+    }
+
+    const video = await Video.findById(videoId)
+
+    if(!videoId || isValidObjectId(videoId)){
+        throw new ApiError(404, "Invalid or missing video ID.")
+    }
+
+    if(video.owner.toString() !== req.user._id.toString() && req.user.role !== "admin"){
+        throw new ApiError(403, "You are not authorized to modify this video")
+    }
+
+    video.isPublished = !video.isPublished;
+    await video.save();
+
+    return res
+    .status(200)
+    .json(new ApiResponse(
+        200,
+        {isPublished: "video is published"},
+        `Video has been ${video.isPublished ? "published" : "unPublished"} succesfully ` 
+    ))
+
 })
 
 export {
@@ -172,5 +203,6 @@ export {
     publishVideos,
     getVideoById,
     updateVideo,
-    deletVideo
+    deletVideo,
+    togglePublishStatus
 }
