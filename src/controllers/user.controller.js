@@ -188,7 +188,7 @@ const logOutUser = asyncHandler(async(req, res) => {
 })
 
 const refreshAccessToken = asyncHandler(async(req, res) => {
-    const incomingRefreshToken = req.body.refreshToken || req.body.refreshToken
+    const incomingRefreshToken = req.body.refreshToken 
 
     if(!incomingRefreshToken){
         throw new ApiError(401, "Unauthorized request")
@@ -293,7 +293,7 @@ const updateUserAvatar = asyncHandler(async(req, res) => {
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
 
-    if(!avatar.url){
+    if(!avatar || !avatar.url){
         throw new ApiError(400, "Error while uploading an avatar.");
     }
 
