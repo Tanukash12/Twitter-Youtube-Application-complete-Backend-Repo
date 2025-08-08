@@ -29,13 +29,13 @@ Inspired by **YouTube** and **Twitter**, this project supports video uploads, us
 - **File Uploads:** Cloudinary, multer
 - **Others:** dotenv, asyncHandler, custom error handlers
 
-# Install dependency
-## npm install
+## Install dependency
+- npm install
 
-# Run the server
-## npm run dev
+## Run the server
+- npm run dev
 
-# Credits
-## [@hiteshchoudhary](https://github.com/hiteshchoudhary). 
+## Credits
+- [@hiteshchoudhary](https://github.com/hiteshchoudhary)
 
 
